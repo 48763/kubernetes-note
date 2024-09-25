@@ -25,16 +25,8 @@ subgraph 說明
   Z[kind]
 end
 
-style AA fill:#9f9,stroke:#333,stroke-width:2px
-style AB fill:#9f9,stroke:#333,stroke-width:2px
-style ABAA fill:#9f9,stroke:#333,stroke-width:2px
-style ABAB fill:#9f9,stroke:#333,stroke-width:2px
-style ABAC fill:#9f9,stroke:#333,stroke-width:2px
-style B fill:#9f9,stroke:#333,stroke-width:2px
-style C fill:#9f9,stroke:#333,stroke-width:2px
-style D fill:#9f9,stroke:#333,stroke-width:2px
-style Z fill:#9f9,stroke:#333,stroke-width:2px
-
+classDef kind fill:#9f9,stroke:#333,stroke-width:2px,color:#000000
+class AA,AB,ABAA,ABAB,ABAC,B,C,D,Z kind
 ```
 
 ## 安裝 operator
