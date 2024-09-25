@@ -1,0 +1,55 @@
+# v1.30.3
+apiVersion: traefik.io/v1alpha1
+# v1.28.5
+# apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  annotations:
+    description: monitor
+    kubernetes.io/ingress.class: traefik
+  name: keycloak-web-secure
+  namespace: keycloak
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`keycloak.yayuyo.yt`)
+    # middlewares:
+    # - name: middleware1
+    #   namespace: keycloak
+    services:
+    - name: keycloak-session-affinity-service
+      port: 8443
+      scheme: https
+      passHostHeader: true
+      sticky:
+        cookie:
+          httpOnly: true
+          name: cookie
+          secure: true
+          sameSite: none
+          maxAge: 600
+  tls:
+    secretName: mayohr-com-tls-secret
+    domains:
+    - main: keycloak.yayuyo.yt
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  annotations:
+    description: monitor
+    kubernetes.io/ingress.class: traefik
+  name: keycloak-web
+  namespace: keycloak
+spec:
+  entryPoints:
+  - web
+  routes:
+  - kind: Rule
+    match: Host(`keycloak.yayuyo.yt`)
+    services:
+    - name: keycloak-session-affinity-service
+      port: 8080
+      scheme: http

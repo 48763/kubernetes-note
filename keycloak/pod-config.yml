@@ -1,0 +1,81 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: tst-keycloak
+spec:
+  instances: 1
+  image: quay.io/keycloak/keycloak:25.0.5
+  startOptimized: false
+  db:
+    vendor: mssql
+    usernameSecret:
+      name: mssql
+      key: username
+    passwordSecret:
+      name: mssql
+      key: password
+    host: <String>
+    database: <String>
+    port: 1433
+    schema: keycloak
+    poolInitialSize: 10
+    poolMinSize: 10
+    poolMaxSize: 10
+  # cache:
+  #   configMapFile:
+  #     name: cache
+  #     key: cache.xml
+  hostname:
+    hostname: keycloak.yayuyo.yt
+    # admin: https://keycloak.yayuyo.yt
+    strict: true
+    backchannelDynamic: false
+  http:
+    httpEnabled: true
+    httpPort: 8080
+    httpsPort: 8443
+    tlsSecret: yayuyo-yt-tls-secret
+  # truststores:
+  #   additionalProperties:
+  #     secret:
+  #       name: ca-cert
+  features:
+    enabled:
+      - hostname:v2
+  proxy:
+    headers: xforwarded # double check your reverse proxy sets and overwrites the X-Forwarded-* headers
+  resources:
+    requests:
+      cpu: 400m
+      memory: 1000Mi
+    limits:
+      cpu: 700m
+      memory: 2000Mi
+  transaction:
+    xaEnabled: false
+  ingress:
+    enabled: false
+  unsupported:
+    podTemplate:
+      spec:
+        containers:
+          - name: keycloak
+            args:
+              - --verbose
+              - start
+              # - --optimized
+            env:
+              - name: KC_CACHE
+                value: local
+              - name: KC_TLS_HOSTNAME_VERIFIER
+                value: DEFAULT
+              - name: QUARKUS_HTTP_LIMITS_MAX_HEADER_SIZE
+                value: 20k
+              - name: QUARKUS_HTTP_HTTP2
+                value: "false"
+            volumeMounts:
+              - name: data
+                mountPath: /opt/keycloak/data
+        volumes:
+          - name: data
+            emptyDir: {}
