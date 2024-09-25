@@ -19,7 +19,7 @@ spec:
     # - name: middleware1
     #   namespace: keycloak
     services:
-    - name: keycloak-session-affinity-service
+    - name: keycloak-service
       port: 8443
       scheme: https
       passHostHeader: true
@@ -50,6 +50,6 @@ spec:
   - kind: Rule
     match: Host(`keycloak.yayuyo.yt`)
     services:
-    - name: keycloak-session-affinity-service
+    - name: keycloak-service
       port: 8080
       scheme: http
