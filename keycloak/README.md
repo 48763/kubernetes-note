@@ -2,6 +2,41 @@
 
 Keycloak 在 kubernetes 上，是透過 operator 進行控制。
 
+```mermaid
+graph TD
+  A[Keycloak Operator]
+    A --> AA[Keycloak Realm CR]
+    A --> AB[Keycloak CR] --> ABA[keycloak-config]
+      ABA --> ABAA[StatefulSet] ---> ABAAA[Keycloak Pod]
+      ABA --> ABAB[Service]
+      ABA --> ABAC[Ingress]
+
+  B[Volume]
+    B --> BA[mepty] --> ABAAA 
+
+  C[ConfigMap]
+    C --> CA[cache.xml] --> ABAAA
+
+  D[Secret]
+    D --> DA[mssql] --> ABAAA
+    D --> DB[cert] --> ABAAA
+
+subgraph 說明
+  Z[kind]
+end
+
+style AA fill:#9f9,stroke:#333,stroke-width:2px
+style AB fill:#9f9,stroke:#333,stroke-width:2px
+style ABAA fill:#9f9,stroke:#333,stroke-width:2px
+style ABAB fill:#9f9,stroke:#333,stroke-width:2px
+style ABAC fill:#9f9,stroke:#333,stroke-width:2px
+style B fill:#9f9,stroke:#333,stroke-width:2px
+style C fill:#9f9,stroke:#333,stroke-width:2px
+style D fill:#9f9,stroke:#333,stroke-width:2px
+style Z fill:#9f9,stroke:#333,stroke-width:2px
+
+```
+
 ## 安裝 operator
 
 創建命名空間: 
