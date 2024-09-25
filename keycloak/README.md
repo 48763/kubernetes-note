@@ -12,7 +12,7 @@ graph TD
       ABA --> ABAC[Ingress]
 
   B[Volume]
-    B --> BA[mepty] --> ABAAA 
+    B --> BA[empty] --> ABAAA 
 
   C[ConfigMap]
     C --> CA[cache.xml] --> ABAAA
