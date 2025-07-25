@@ -14,3 +14,13 @@ $ helm upgrade --install loki grafana/loki-distributed \
 ```
 
 
+
+```
+docker run --rm grafana/loki-benchmark:latest \
+  -rate 10000 \
+  -duration 1m \
+  -batch-size 1000 \
+  -workers 10 \
+  -entry-size 256 \
+  -push-url http://10.0.0.4:3100/api/prom/push
+```
