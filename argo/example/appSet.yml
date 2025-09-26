@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: example-product-1
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - list:
+      elements:
+      - env: tst
+        cluster: sea-tst-aks
+        url: https://kubernetes.default.svc
+      - env: dev
+        cluster: sea-tst-aks
+        url: https://kubernetes.default.svc
+  template:
+    metadata:
+      name: '{{.env}}-example-product-1'
+      finalizers:
+      - "resources.argoproj.io"
+      labels:
+        product: asia
+    spec:
+      project: 'example'
+      source:
+        repoURL: 
+        path: 'example-overlays/example-product-1/{{.env}}'
+        targetRevision: main
+        kustomize:
+          namespace: '{{.env}}-example'
+      destination:
+        server: '{{.url}}'
+        namespace: '{{.env}}-example'
+      syncPolicy:
+        # automated:
+        #   prune: false
+        #   selfHeal: false
+        #   allowEmpty: false
+      revisionHistoryLimit: 5

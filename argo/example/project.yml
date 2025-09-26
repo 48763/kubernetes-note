@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: example
+spec:
+  sourceRepos:
+  - 
+  destinations:
+  - name: sea-tst-aks
+    namespace: '*-example'
+    server: https://kubernetes.default.svc
+  # roles:
+  #   - name: admin
+  #     description: Admin privileges to keycloak
+  #     policies:
+  #       - p, proj:example:admin, applications, *, *, allow
+  #     groups:
+  #       - yayuyo
