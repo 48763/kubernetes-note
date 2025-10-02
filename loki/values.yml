@@ -417,8 +417,7 @@ ingester:
   # -- Pod Disruption Budget maxUnavailable
   maxUnavailable: null
   # -- Pod Disruption Budget minAvailable
-    minAvailable: maxSurge: 1null
-
+  minAvailable: null
   # -- Max Surge for ingester pods
   maxSurge: 1
 
@@ -516,10 +515,8 @@ distributor:
   # === 重要 ====
   # -- Pod Disruption Budget maxUnavailable
   maxUnavailable: null
-    # -- Pod Disruption Budget minAvailablemaxSurge: 1
-
-    minAvailable: maxSurge: 1null
-
+  # -- Pod Disruption Budget minAvailable
+  minAvailable: null
   # -- Max Surge for distributor pods
   maxSurge: 1
   # -- Node selector for distributor pods
@@ -603,10 +600,8 @@ querier:
   # === 重要 ====
   # -- Pod Disruption Budget maxUnavailable
   maxUnavailable: null
-    # -- Pod Disruption Budget minAvailablemaxSurge: 1
-
-    minAvailable: maxSurge: 1null
-
+  # -- Pod Disruption Budget minAvailable
+  minAvailable: null
   # -- Max Surge for querier pods
   maxSurge: 1
 
@@ -690,10 +685,8 @@ queryFrontend:
   # === 重要 ====
   # -- Pod Disruption Budget maxUnavailable
   maxUnavailable: null
-    # -- Pod Disruption Budget minAvailablemaxSurge: 1
-
-    minAvailable: maxSurge: 1null
-
+  # -- Pod Disruption Budget minAvailable
+  minAvailable: null
   # -- Node selector for query-frontend pods
   maxSurge: 1
 
@@ -747,10 +740,8 @@ queryScheduler:
   # === 重要 ====
   # -- Pod Disruption Budget maxUnavailable
   maxUnavailable: 1
-    # -- Pod Disruption Budget minAvailablemaxSurge: 1
-
-    minAvailable: maxSurge: 1null
-
+  # -- Pod Disruption Budget minAvailable
+  minAvailable: null
   # -- Max Surge for querier pods
   maxSurge: 1
 
@@ -914,10 +905,13 @@ gateway:
               matchLabels:
                 {{- include "loki.gatewaySelectorLabels" . | nindent 12 }}
             topologyKey: failure-domain.beta.kubernetes.io/zone
+
+# === 重要 ====
   maxUnavailable: null
   minAvailable: null
-    nodeSelector: maxSurge: 1{}
+  maxSurge: 1
 
+  nodeSelector: {}
   tolerations: []
   dnsConfig: {}
   service:
@@ -1218,11 +1212,14 @@ ruler:
             topologyKey: failure-domain.beta.kubernetes.io/zone
 
   # === 重要 ====
+
+  # === 重要 ====
   maxUnavailable: null
   minAvailable: null
-    maxSurge: 1maxSurge: 1
+  maxSurge: 1
 
 
+# === 重要 ====
   nodeSelector: {}
   tolerations: []
   dnsConfig: {}
@@ -1346,10 +1343,14 @@ indexGateway:
             topologyKey: failure-domain.beta.kubernetes.io/zone
 
   # === 重要 ====
+
+  # === 重要 ====
   maxUnavailable: null
   minAvailable: null
   maxSurge: 1
 
+
+# === 重要 ====
   nodeSelector: {}
   tolerations: []
 
@@ -1451,10 +1452,16 @@ memcachedChunks:
               matchLabels:
                 {{- include "loki.memcachedChunksSelectorLabels" . | nindent 12 }}
             topologyKey: failure-domain.beta.kubernetes.io/zone
+
+  # === 重要 ====
   maxUnavailable: null
   minAvailable: null
+  maxSurge: 0
+  
   nodeSelector: {}
   tolerations: []
+
+  # === 重要 ====
   persistence:
     enabled: false
     size: 10Gi
